@@ -10,6 +10,7 @@
     <complexType name="wsfed">
         <complexContent>
             <extension base="ph:LoginHandlerType">
+            	<attribute name="authenticationServletURL" type="string" default="/WSFed"/>
             </extension>
         </complexContent>
     </complexType>
