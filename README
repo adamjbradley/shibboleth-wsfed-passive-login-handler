@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-WS-Fed and WS-Trust Login Handler
+WS-Fed Passive Requestor Profile login handler
 -------------------
 This login-handler implements an authentication handler for the
 Shibboleth IdP and will set the authentication context class
