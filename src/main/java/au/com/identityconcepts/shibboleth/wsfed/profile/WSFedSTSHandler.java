@@ -1,6 +1,5 @@
 package au.com.identityconcepts.shibboleth.wsfed.profile;
 
-import au.com.identityconcepts.shibboleth.wsfed.authn.WSFedSTSLoginHandler;
 import au.com.identityconcepts.shibboleth.wsfed.config.relyingparty.*;
 
 import java.io.FileInputStream;

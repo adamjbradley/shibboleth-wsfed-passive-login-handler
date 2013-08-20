@@ -3,6 +3,7 @@ package au.com.identityconcepts.shibboleth.wsfed.profile;
 import au.com.identityconcepts.shibboleth.wsfed.config.relyingparty.WSFedConfiguration;
 
 
+
 import java.io.StringReader;
 import java.io.Writer;
 import java.io.OutputStreamWriter;
@@ -18,6 +19,7 @@ import org.opensaml.common.SAMLObjectBuilder;
 import org.opensaml.common.binding.decoding.SAMLMessageDecoder;
 import org.opensaml.common.xml.SAMLConstants;
 import org.opensaml.saml1.core.*;
+import org.opensaml.saml2.metadata.Endpoint;
 import org.opensaml.ws.message.decoder.MessageDecodingException;
 import org.opensaml.ws.message.encoder.MessageEncodingException;
 import org.opensaml.ws.transport.InTransport;
@@ -42,7 +44,6 @@ import edu.internet2.middleware.shibboleth.common.relyingparty.provider.saml2.SS
 
 
 import edu.internet2.middleware.shibboleth.idp.profile.saml1.*;
-
 import edu.internet2.middleware.shibboleth.idp.session.Session;
 
 import org.opensaml.common.SAMLObject;
@@ -50,11 +51,10 @@ import org.opensaml.common.SAMLObject;
 import edu.internet2.middleware.shibboleth.common.relyingparty.provider.saml1.AbstractSAML1ProfileConfiguration;
 import edu.internet2.middleware.shibboleth.common.attribute.provider.SAML1AttributeAuthority;
 import edu.internet2.middleware.shibboleth.common.relyingparty.provider.AbstractSAMLProfileConfiguration;
-
 import edu.internet2.middleware.shibboleth.idp.profile.saml1.*;
 
 
-public class WSFedProfileHandler extends AbstractShibbolethProfileHandler {
+public class WSFedProfileHandler extends AbstractSAML1ProfileHandler {
 	
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(WSFedProfileHandler.class);
@@ -77,13 +77,7 @@ public class WSFedProfileHandler extends AbstractShibbolethProfileHandler {
     public String getProfileId() {
         return WSFedConfiguration.PROFILE_ID;
     }
-    
-	@Override
-	public void processRequest(InTransport inTransport, OutTransport outTransport)
-			throws ProfileException {
-				
-	}   
-	
+    	
     /**
      * Creates a response to the {@link AuthnRequest} and sends the user, with response in tow, back to the relying
      * party after they've been authenticated.
@@ -216,5 +210,28 @@ public class WSFedProfileHandler extends AbstractShibbolethProfileHandler {
     /** In case we ever add something to the base context **/
     protected class WSFedRequestContext extends BaseSAML1ProfileRequestContext<Request, Response, WSFedConfiguration> {
     }
+
+	@Override
+	public void processRequest(HTTPInTransport inTransport,
+			HTTPOutTransport outTransport) throws ProfileException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void populateSAMLMessageInformation(
+			BaseSAMLProfileRequestContext requestContext)
+			throws ProfileException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected Endpoint selectEndpoint(
+			BaseSAMLProfileRequestContext requestContext)
+			throws ProfileException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

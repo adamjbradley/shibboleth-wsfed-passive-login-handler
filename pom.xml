@@ -29,9 +29,28 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>3.8.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.8</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit</artifactId>
+          <groupId>junit</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>xmlunit</groupId>
+      <artifactId>xmlunit</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+    
     
             <!-- Provided dependencies -->
         <dependency>
@@ -41,10 +60,16 @@
             <scope>provided</scope>
         </dependency>
     
+    <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-mock</artifactId>
+		<version>2.0.8</version>
+	</dependency>
     
   </dependencies>
   
       <build>
+        <sourceDirectory>C:\Users\abradley\Documents\GitHub\shibboleth-wsfed-passive-login-handler\src\test\java\au\com\identityconcepts\shibboleth\test</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -99,7 +124,7 @@
     
     
     <!-- Project Metadata -->
-    <url>http://www.identityconcpets.com.au/</url>
+    <url>http://www.identityconcepts.com.au/</url>
     
     <inceptionYear>2013</inceptionYear>
         <licenses>

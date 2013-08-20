@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-WS-Fed Passive Requestor Profile login handler
+WS-Fed Passive Requestor Profile profile handler
+August 20, 2013
+Version 0.9
 -------------------
-This login-handler implements an authentication handler for the
+This profile-handler implements an authentication handler for the
 Shibboleth IdP and will set the authentication context class
 "urn:oasis:names:tc:SAML:2.0:ac:classes:wsfed".
 
@@ -31,3 +33,60 @@ Issue Tracking
 
 Comments & Questions
   adam_j_bradley@hotmail.com
+  
+  
+  
+----------------------------------------------------------------
+Build and install:
+-----------------------------------------------------------
+
+Build:
+1) copy jar to idp
+   cp target/wsfed.jar $idpsrc/lib
+
+3) copy webapp files to idp src
+   cp resources/webapp/???.jsp $idpsrc/src/main/webapp
+
+Configure:
+1) handler.xml
+   Add a namespace and a schema location.
+
+      <ProfileHandlerGroup xmlns="urn:mace:shibboleth:2.0:idp:profile-handler"
+           xmlns:uw="urn:mace:shibboleth:2.0:idp:uw"
+           xmlns:icard="urn:mace:shibboleth:2.0:idp:infocard"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="urn:mace:shibboleth:2.0:idp:profile-handler classpath:/schema/shibboleth-2.0-idp-profile-handler.xsd
+           ProfileHandlerWSFedNamespaceHandler classpath:/edu/internet2/middleware/shibboleth/wsfed/wsfed.xsd ">
+  
+2) Add profile handler path definitions (e.g.)
+
+<!-- WSFed handlers -->
+
+    <ProfileHandler xsi:type="wsfed:Status">
+        <RequestPath>/wsfed/status</RequestPath>
+    </ProfileHandler>
+    <ProfileHandler xsi:type="wsfed:PassiveRequstorProfile">
+      <RequestPath>/wsfed/prp</RequestPath>
+    </ProfileHandler>
+
+-----------------------------------------------------------------------------
+
+
+
+ToDo: add doc for personalcard db
+
+
+
+Issues:
+
+0) Current cardspace IS needs old, hacked xml-security-4.1
+
+1) The card responder will generate an image for the card
+   background.  That's done with an exec.  Might be
+   a better way to do this.
+
+
+
+  
+
+  

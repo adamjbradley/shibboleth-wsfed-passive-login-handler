@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://www.identityconcepts.com.au/idc/idp/wsfed"
+<schema targetNamespace="urn:mace:shibboleth:2.0:idp:wsfed"
             xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:ph="urn:mace:shibboleth:2.0:idp:profile-handler"
             elementFormDefault="qualified">
@@ -9,8 +9,7 @@
        
     <complexType name="wsfed">
         <complexContent>
-            <extension base="ph:LoginHandlerType">
-            	<attribute name="authenticationServletURL" type="string" default="/WSFed"/>
+            <extension base="ph:IdPProfileHandlerType">            	
             </extension>
         </complexContent>
     </complexType>
