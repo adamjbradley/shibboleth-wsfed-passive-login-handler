@@ -149,7 +149,7 @@ public class WSFedSTSHandler extends AbstractSAMLProfileHandler {
 	
     /** {@inheritDoc} */
     public String getProfileId() {
-        return "urn:mace:shibboleth:2.0:idp:profiles:infocard:sts";
+        return "au:com:identityconcepts:shibboleth:wsfed";
     }
     
     /** {@inheritDoc} */

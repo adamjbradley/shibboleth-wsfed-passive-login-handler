@@ -18,9 +18,8 @@ WS-Fed Passive Requestor Profile profile handler
 August 20, 2013
 Version 0.9
 -------------------
-This profile-handler implements an authentication handler for the
-Shibboleth IdP and will set the authentication context class
-"urn:oasis:names:tc:SAML:2.0:ac:classes:wsfed".
+This profile-handler implements a WS-Fed profile handler for the
+Shibboleth IdP 
 
 License
   See LICENSE file
@@ -33,7 +32,6 @@ Issue Tracking
 
 Comments & Questions
   adam_j_bradley@hotmail.com
-  
   
   
 ----------------------------------------------------------------
@@ -53,22 +51,29 @@ Configure:
 
       <ProfileHandlerGroup xmlns="urn:mace:shibboleth:2.0:idp:profile-handler"
            xmlns:uw="urn:mace:shibboleth:2.0:idp:uw"
-           xmlns:icard="urn:mace:shibboleth:2.0:idp:infocard"
+           xmlns:wsfed="au:com:identityconcepts:shibboleth:wsfed"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="urn:mace:shibboleth:2.0:idp:profile-handler classpath:/schema/shibboleth-2.0-idp-profile-handler.xsd
-           ProfileHandlerWSFedNamespaceHandler classpath:/edu/internet2/middleware/shibboleth/wsfed/wsfed.xsd ">
+           xsi:schemaLocation="urn:mace:shibboleth:2.0:idp:profile-handler classpath:/schema/shibboleth-2.0-idp-profile-handler.xsd                     
+           au:com:identityconcepts:shibboleth:wsfed classpath:/au/com/identityconcepts/shibboleth/wsfed/schema/wsfed-profile-handler.xsd ">
   
 2) Add profile handler path definitions (e.g.)
 
 <!-- WSFed handlers -->
 
-    <ProfileHandler xsi:type="wsfed:Status">
-        <RequestPath>/wsfed/status</RequestPath>
-    </ProfileHandler>
-    <ProfileHandler xsi:type="wsfed:PassiveRequstorProfile">
-      <RequestPath>/wsfed/prp</RequestPath>
-    </ProfileHandler>
-
+    <!-- WSFed -->
+    <ph:ProfileHandler xsi:type="wsfed:WSFedStatus">
+        <ph:RequestPath>/wsfed/status</ph:RequestPath>
+    </ph:ProfileHandler>
+    <ph:ProfileHandler xsi:type="wsfed:WSFedPassiveRequstorProfile">
+      <ph:RequestPath>/wsfed/prp</ph:RequestPath>
+    </ph:ProfileHandler>
+    <ph:ProfileHandler xsi:type="wsfed:WSFedMEX">
+      <ph:RequestPath>/wsfed/mex</ph:RequestPath>
+    </ph:ProfileHandler>
+    <ph:ProfileHandler xsi:type="wsfed:WSFedActive">
+      <ph:RequestPath>/wsfed/wstrust</ph:RequestPath>
+    </ph:ProfileHandler>
+    
 -----------------------------------------------------------------------------
 
 

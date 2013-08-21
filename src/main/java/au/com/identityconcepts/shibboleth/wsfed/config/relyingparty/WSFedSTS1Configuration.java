@@ -24,7 +24,7 @@ import edu.internet2.middleware.shibboleth.common.relyingparty.provider.saml1.Ab
 public class WSFedSTS1Configuration extends AbstractSAML1ProfileConfiguration {
 
     /** ID for this profile configuration. */
-    public static final String PROFILE_ID = "urn:mace:shibboleth:2.0:profiles:infocard:sts1";
+    public static final String PROFILE_ID = "ph:WSFedStatus";
 
     /** {@inheritDoc} */
     public String getProfileId() {

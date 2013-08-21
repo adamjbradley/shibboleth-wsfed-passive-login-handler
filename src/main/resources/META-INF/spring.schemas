@@ -1,1 +1,1 @@
-au:com:identityconcepts:shibboleth:wsfed = schema/wsfed-profile-handler.xsd
+au\:com\:identityconcepts\:shibboleth\:wsfed = schema/wsfed-profile-handler.xsd

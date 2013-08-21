@@ -89,13 +89,13 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
      */
     public WSFedSAML1Handler() {
         super();
-        log.debug("Infocard SAML1handler constructor:");
+        log.debug("WSFed SAML1handler constructor:");
         signatureBuilder = (XMLObjectBuilder<Signature>) getBuilderFactory().getBuilder(Signature.DEFAULT_ELEMENT_NAME);
     }
 
     /** {@inheritDoc} */
     public String getProfileId() {
-        return "urn:mace:shibboleth:2.0:idp:profiles:wsfedsaml1:sts";
+        return "au:com:identityconcepts:shibboleth:wsfed:WSFedStatus";
     }
 
     protected WSFedSTSRequest request;

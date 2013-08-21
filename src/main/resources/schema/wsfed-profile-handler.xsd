@@ -1,17 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="urn:mace:shibboleth:2.0:idp:wsfed"
-            xmlns="http://www.w3.org/2001/XMLSchema"
-            xmlns:ph="urn:mace:shibboleth:2.0:idp:profile-handler"
-            elementFormDefault="qualified">
-   
-    <import namespace="urn:mace:shibboleth:2.0:idp:profile-handler" 
-            schemaLocation="classpath:/schema/shibboleth-2.0-idp-profile-handler.xsd" /> 
+
+<xsd:schema targetNamespace="au:com:identityconcepts:shibboleth:wsfed" xmlns:xsd="http://www.w3.org/2001/XMLSchema"   
+    xmlns="au:com:identityconcepts:shibboleth:wsfed"
+    xmlns:idp="urn:mace:shibboleth:2.0:idp:profile-handler" 
+    elementFormDefault="qualified">
+	   
+    <xsd:import namespace="urn:mace:shibboleth:2.0:idp:profile-handler"
+       schemaLocation="classpath:/schema/shibboleth-2.0-idp-profile-handler.xsd" />
+
+    <xsd:annotation>
+        <xsd:documentation>
+            This schema specifies the configuration additions for the WSFed plugin
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexType name="WSFedStatus">
+        <xsd:annotation>
+            <xsd:documentation>Handler that returns the status.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="idp:RequestURIMappedProfileHandlerType" />
+        </xsd:complexContent>
+    </xsd:complexType>
        
-    <complexType name="wsfed">
-        <complexContent>
-            <extension base="ph:IdPProfileHandlerType">            	
-            </extension>
-        </complexContent>
-    </complexType>
-    
-</schema>
+    <xsd:complexType name="WSFedPassiveRequestorProfile">
+    	<xsd:annotation>
+            <xsd:documentation>Handler that manages WSFed Passive Requestor Profile.</xsd:documentation>
+        </xsd:annotation>    
+        <xsd:complexContent>
+            <xsd:extension base="idp:IdPProfileHandlerType">
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="WSFedActive">
+    	<xsd:annotation>
+            <xsd:documentation>Handler that manages WSFed Active (ws-trust)</xsd:documentation>
+        </xsd:annotation>    
+        <xsd:complexContent>
+            <xsd:extension base="idp:IdPProfileHandlerType">
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="WSFedMEX">
+        <xsd:annotation>
+            <xsd:documentation>Handler that returns MEX information.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="idp:RequestURIMappedProfileHandlerType" />
+        </xsd:complexContent>
+    </xsd:complexType>
+          
+   
+</xsd:schema>
