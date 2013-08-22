@@ -31,6 +31,11 @@ public class WSFedHandlerBeanDefinitionParser extends AbstractShibbolethProfileH
     /** {@inheritDoc} */
     protected void doParse(Element config, BeanDefinitionBuilder builder) {
         super.doParse(config, builder); 
+        
+        builder.addConstructorArg(DatatypeHelper.safeTrimOrNullString(config.getAttributeNS(null,
+                "authenticationManagerPath")));
+        builder.addConstructorArg(DatatypeHelper.safeTrimOrNullString(config.getAttributeNS(null,
+                "relyingParty")));
     }
     
     /** {@inheritDoc} */

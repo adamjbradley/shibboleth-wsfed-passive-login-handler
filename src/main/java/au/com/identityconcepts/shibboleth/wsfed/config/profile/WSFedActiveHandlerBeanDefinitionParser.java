@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
  
 import org.w3c.dom.Element;
 
-import au.com.identityconcepts.shibboleth.wsfed.profile.WSFedActiveProfileHandler;
-import au.com.identityconcepts.shibboleth.wsfed.profile.WSFedProfileHandler;
+import au.com.identityconcepts.shibboleth.wsfed.profile.WSFedActiveHandler;
+import au.com.identityconcepts.shibboleth.wsfed.profile.WSFedProfileHandlerStub;
 import edu.internet2.middleware.shibboleth.common.config.profile.AbstractShibbolethProfileHandlerBeanDefinitionParser;
 import edu.internet2.middleware.shibboleth.idp.config.profile.ProfileHandlerNamespaceHandler;
 import edu.internet2.middleware.shibboleth.idp.config.profile.authn.AbstractLoginHandlerBeanDefinitionParser;
@@ -26,12 +26,12 @@ public class WSFedActiveHandlerBeanDefinitionParser extends AbstractShibbolethPr
  
     /** {@inheritDoc} */
     protected Class getBeanClass(Element element) {
-        return WSFedActiveProfileHandler.class;
+        return WSFedActiveHandler.class;
     }
  
     /** {@inheritDoc} */
     protected void doParse(Element config, BeanDefinitionBuilder builder) {
-        super.doParse(config, builder); 
+        super.doParse(config, builder);        
     }
     
     /** {@inheritDoc} */

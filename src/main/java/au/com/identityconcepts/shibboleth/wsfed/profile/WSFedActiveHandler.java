@@ -54,17 +54,17 @@ import edu.internet2.middleware.shibboleth.common.relyingparty.provider.Abstract
 import edu.internet2.middleware.shibboleth.idp.profile.saml1.*;
 
 
-public class WSFedActiveProfileHandler extends AbstractSAML1ProfileHandler {
+public class WSFedActiveHandler extends AbstractSAML1ProfileHandler {
 	
     /** Class logger. */
-    private final Logger log = LoggerFactory.getLogger(WSFedActiveProfileHandler.class);
+    private final Logger log = LoggerFactory.getLogger(WSFedActiveHandler.class);
 
     /**
      * Constructor.
      * 
      */
     @SuppressWarnings("unchecked")
-    public WSFedActiveProfileHandler() {
+    public WSFedActiveHandler() {
         super();
     }
     

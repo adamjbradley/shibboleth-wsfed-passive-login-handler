@@ -42,6 +42,7 @@ import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureException;
 import org.opensaml.xml.signature.Signer;
 
+import au.com.identityconcepts.shibboleth.wsfed.config.relyingparty.WSFedPassiveRequestorProfileConfiguration;
 import edu.internet2.middleware.shibboleth.common.attribute.AttributeRequestException;
 import edu.internet2.middleware.shibboleth.common.attribute.BaseAttribute;
 import edu.internet2.middleware.shibboleth.common.attribute.encoding.AttributeEncoder;
@@ -56,12 +57,11 @@ import edu.internet2.middleware.shibboleth.common.relyingparty.RelyingPartyConfi
 import edu.internet2.middleware.shibboleth.common.relyingparty.provider.saml1.AbstractSAML1ProfileConfiguration;
 import edu.internet2.middleware.shibboleth.idp.profile.saml1.AbstractSAML1ProfileHandler;
 import edu.internet2.middleware.shibboleth.idp.profile.saml1.BaseSAML1ProfileRequestContext;
-import au.com.identityconcepts.shibboleth.wsfed.config.relyingparty.WSFedConfiguration;
 
-/** WSFed handler for STS SAML1 requests. */
-public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
+/** WSFed Passive Requestor Profile handler SAML1 requests. */
+public class WSFedPassiveRequestorProfileHandler extends AbstractSAML1ProfileHandler {
 
-    public final static String XMLNS_SOAP11 = "http://schemas.xmlsoap.org/soap/envelope/";
+	public final static String XMLNS_SOAP11 = "http://schemas.xmlsoap.org/soap/envelope/";
     public final static String XMLNS_SOAP12 = "http://www.w3.org/2003/05/soap-envelope";
     public final static String XMLNS_IC = "http://schemas.xmlsoap.org/ws/2005/05/identity";
     public final static String XMLNS_WSU = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
@@ -73,10 +73,10 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
     public final static String SAML_ASSERTIONID = "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.0#SAMLAssertionID";
     public final static String XMLNS_DS = "http://www.w3.org/2000/09/xmldsig#";
 
-    public final static String subjectConfMethod = "urn:oasis:names:tc:SAML:1.0:cm:bearer";     
-    
+    public final static String subjectConfMethod = "urn:oasis:names:tc:SAML:1.0:cm:bearer";
+
     /** Class logger. */
-    private final Logger log = LoggerFactory.getLogger(WSFedSAML1Handler.class);
+    private final Logger log = LoggerFactory.getLogger(WSFedPassiveRequestorProfileHandler.class);
 
     private XMLObjectBuilder<Signature> signatureBuilder;
 
@@ -86,29 +86,30 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
      * Constructor.
      * 
      */
-    public WSFedSAML1Handler() {
+    public WSFedPassiveRequestorProfileHandler() {
         super();
-        log.debug("WSFed SAML1handler constructor:");
+        log.debug("Infocard SAML1handler constructor:");
         signatureBuilder = (XMLObjectBuilder<Signature>) getBuilderFactory().getBuilder(Signature.DEFAULT_ELEMENT_NAME);
+
     }
 
     /** {@inheritDoc} */
     public String getProfileId() {
-        return "au:com:identityconcepts:shibboleth:wsfed:WSFedStatus";
+        return "urn:mace:shibboleth:2.0:idp:profiles:infocard:sts";
     }
 
     protected WSFedRequest request;
-
     public void setRequest(WSFedRequest req) {
           request = req;
     }
-        
+              
     /** {@inheritDoc} */
     public void processRequest(HTTPInTransport inTransport, HTTPOutTransport outTransport) throws ProfileException {
-        log.debug("WSFedSAML1STSHandler processing incomming request");
-        WSFedSTS1RequestContext requestContext = completeDecodeRequest(inTransport, outTransport);
+        log.debug("WSFed Passive Requestor Profile handler processing incomming request");
+        WSFedPassiveRequestorProfileRequestContext requestContext = completeDecodeRequest(inTransport, outTransport);
         generateAssertion(requestContext);
     }
+
 
     protected List<String> getNameFormats(BaseSAML1ProfileRequestContext<?, ?, ?> requestContext)
             throws ProfileException {
@@ -117,26 +118,28 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
         return nameFormats;
     }
 
-	/**
-	 * Decodes an incoming request and populates a created request context with the resultant information.
-	 * 
-	 * @param inTransport inbound message transport
-	 * @param outTransport outbound message transport
-	 * 
-	 * @return the created request context
-	 * 
-	 * @throws ProfileException throw if there is a problem decoding the request
-	 */
-    protected WSFedSTS1RequestContext completeDecodeRequest(HTTPInTransport inTransport, HTTPOutTransport outTransport)
+    /**
+     * Decodes an incoming request and populates a created request context with the resultant information.
+     * 
+     * @param inTransport inbound message transport
+     * @param outTransport outbound message transport
+     * 
+     * @return the created request context
+     * 
+     * @throws ProfileException throw if there is a problem decoding the request
+     */
+
+    protected WSFedPassiveRequestorProfileRequestContext completeDecodeRequest(HTTPInTransport inTransport, HTTPOutTransport outTransport)
             throws ProfileException {
 
         log.debug(".. complete decode saml1 sts request");
  
-        WSFedSTS1RequestContext requestContext = new WSFedSTS1RequestContext();
+
+        WSFedPassiveRequestorProfileRequestContext requestContext = new WSFedPassiveRequestorProfileRequestContext();
         requestContext.setPrincipalName(request.principalName);
         requestContext.setSecurityPolicyResolver(getSecurityPolicyResolver());
 
-        requestContext.setCommunicationProfileId(WSFedConfiguration.PROFILE_ID);
+        requestContext.setCommunicationProfileId(WSFedPassiveRequestorProfileConfiguration.PROFILE_ID);
         requestContext.setInboundMessageTransport(inTransport);
         requestContext.setInboundSAMLProtocol(SAMLConstants.SAML11P_NS);
 
@@ -144,7 +147,7 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
         requestContext.setOutboundSAMLProtocol(SAMLConstants.SAML11P_NS);
 
         String relyingPartyID = request.relyingPartyID;
-        log.debug(".. saml1 rp: " + relyingPartyID);
+        // log.debug(".. saml1 rp: " + relyingPartyID);
 
         requestContext.setInboundMessageIssuer(relyingPartyID);
 
@@ -157,10 +160,10 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
         requestContext.setRelyingPartyConfiguration(rpConfig);
         requestContext.setLocalEntityId(rpConfig.getProviderId());
     
-        WSFedConfiguration profileConfig = (WSFedConfiguration) rpConfig
-                .getProfileConfiguration(WSFedConfiguration.PROFILE_ID);
-                
+        WSFedPassiveRequestorProfileConfiguration profileConfig = (WSFedPassiveRequestorProfileConfiguration) rpConfig
+                .getProfileConfiguration(WSFedPassiveRequestorProfileConfiguration.PROFILE_ID);
         requestContext.setProfileConfiguration(profileConfig);
+
 
         // set the real relying party as the audience
         Collection<String> aud = profileConfig.getAssertionAudiences();
@@ -181,7 +184,8 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
               log.debug("setting audience:" + fixrp);
               aud.add(fixrp);
            }
-        }       
+        }
+       
 
         log.debug("looking for sts1 signing cred");
         if (profileConfig.getSigningCredential() != null) {
@@ -193,12 +197,14 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
         }
         
         // add requested attributes - convert from requested uri to attribute id
+
         HashSet<String> attrs = new HashSet<String>();
         attrs.add("transientId");
 
         attributeMap = new HashMap<String, String>();   // <id, uri>
 
         // Look through SAML1 encoders for requested attributes
+
         SAML1AttributeAuthority attributeAuthority = profileConfig.getAttributeAuthority();
         Map<String, AttributeDefinition> definitions =
                      ((ShibbolethSAML1AttributeAuthority)attributeAuthority).getAttributeResolver().getAttributeDefinitions();
@@ -227,75 +233,33 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
         }
         
         requestContext.setRequestedAttributes(attrs);
+
         return requestContext;
     }
 
-    protected void generateAssertion(WSFedSTS1RequestContext requestContext) throws ProfileException {
 
-         // resolve the attributes
-    	 WSFedConfiguration profileConfig = requestContext.getProfileConfiguration();
-         SAML1AttributeAuthority attributeAuthority = profileConfig.getAttributeAuthority();
-         if (attributeAuthority==null) {
-            log.error(".. no attribute authority");
-            return;
-         }
-         
-         try {
-            log.debug("Resolving attributes for principal {} of SAML request from relying party {}",
-                      requestContext.getPrincipalName(), requestContext.getInboundMessageIssuer());
-            Map<String, BaseAttribute> principalAttributes =
-                        ((ShibbolethSAML1AttributeAuthority)attributeAuthority).getAttributeResolver().resolveAttributes(requestContext);
-            requestContext.setAttributes(principalAttributes);
-            // log.debug(".. have " + principalAttributes.size() + "attributes");
+    protected void generateAssertion(WSFedPassiveRequestorProfileRequestContext requestContext) throws ProfileException {
 
-            // store the string values for display
-
-            HashMap<String, String> displayAttributes = new HashMap<String, String>();   // <uri, display value>
-            for (BaseAttribute attr : principalAttributes.values())  {
-                for (Object o : attr.getValues()) {
-                    if (o!=null) {
-                        String uri = attributeMap.get(attr.toString());
-                        if (uri != null) {
-                           // log.debug("... found " + attr.toString() + "in the attribute map = " + uri);
-                           String ov = displayAttributes.get(uri);
-                           if (ov==null) ov = "";
-                           else ov = ov.concat(";");
-                           displayAttributes.put(uri, ov.concat(o.toString()));
-                        }
-                    }
-                }
-            }
-            request.displayAttributes = displayAttributes;
+    	WSFedPassiveRequestorProfileConfiguration profileConfig = requestContext.getProfileConfiguration();
         
-        } catch (AttributeRequestException e) {
-            log.error("Error resolving attributes for SAML request from relying party "
-                    + requestContext.getInboundMessageIssuer(), e);
-            requestContext.setFailureStatus(buildStatus(StatusCode.RESPONDER, null, "Error resolving attributes"));
-            throw new ProfileException("Error resolving attributes for SAML request from relying party "
-                    + requestContext.getInboundMessageIssuer(), e);
-        }
-
-        requestContext.setReleasedAttributes(requestContext.getAttributes().keySet());
-
-        log.debug(".. building attribute statement");
-
-        ArrayList<Statement> statements = new ArrayList<Statement>();
-
-        AttributeStatement attributeStatement = buildAttributeStatement(requestContext, subjectConfMethod);
-        if (attributeStatement != null) {
-            statements.add(attributeStatement);
-        }
-
         DateTime issueInstant = new DateTime();
         Assertion assertion = buildAssertion(requestContext, issueInstant);
-        if (statements != null && !statements.isEmpty()) {
-            assertion.getStatements().addAll(statements);
-        }
-
-        log.debug(".. signing assertion");
+                        
         signAssertion(requestContext, assertion);
         request.assertion = assertion;
     }
+
+
+
+    /** Represents the internal state of a Infocard STS request while it's being processed by the IdP. */
+
+    protected class WSFedPassiveRequestorProfileRequestContext extends
+            BaseSAML1ProfileRequestContext<Request, Response, WSFedPassiveRequestorProfileConfiguration>  {
+
+        /** SP-provide assertion consumer service URL. */
+        private String spAssertionConsumerService;
+    }
+
 
     protected void signAssertion(BaseSAML1ProfileRequestContext<?, ?, ?> requestContext, Assertion assertion)
             throws ProfileException {
@@ -353,12 +317,5 @@ public class WSFedSAML1Handler extends AbstractSAML1ProfileHandler {
     protected void populateSAMLMessageInformation(BaseSAMLProfileRequestContext requestContext) throws ProfileException {
     }
 
-    /** Represents the internal state of a WSFed STS request while it's being processed by the IdP. */
-    protected class WSFedSTS1RequestContext extends
-            BaseSAML1ProfileRequestContext<Request, Response, WSFedConfiguration>  {
-
-        /** SP-provide assertion consumer service URL. */
-        private String spAssertionConsumerService;
-    }
 
 }

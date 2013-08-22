@@ -24,7 +24,7 @@ import java.security.cert.Certificate;
 /**
  * WSFed STS configuration settings.
  */
-public class WSFedSTSRequest {
+public class WSFedRequest {
 
    public String principalName;
    public String relyingPartyID;

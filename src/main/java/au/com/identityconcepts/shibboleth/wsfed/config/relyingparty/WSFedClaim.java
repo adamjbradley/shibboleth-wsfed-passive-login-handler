@@ -17,10 +17,9 @@
 package au.com.identityconcepts.shibboleth.wsfed.config.relyingparty;
 
 /**
- * Infocard card 
+ * WSFed Claims
  */
 public class WSFedClaim {
-   public String key;
-   public String uri;
-   public String displayName;
+   public String UPN;   
+   public String ImmutableId;
 }
